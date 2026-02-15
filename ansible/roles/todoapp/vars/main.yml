@@ -1,0 +1,13 @@
+- name: Reload systemd
+   systemd:
+   daemon_reload: true
+
+- name: Вынесение в переменные
+   vars:
+    http_port: 8080
+    name: minor
+    app_file_name: app.txt
+
+
+    
+

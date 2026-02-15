@@ -1,0 +1,4 @@
+name: Deploy TODO API service
+hosts: local
+become: true
+roles: todoapp

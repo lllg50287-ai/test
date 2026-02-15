@@ -1,0 +1,20 @@
+[Unit]
+Description=TODO API Service
+After=network.target
+
+[Service]
+Type=simple
+User={{ app_user }}
+WorkingDirectory={{ app_directory }}
+
+Environment=APP_PORT={{ app_port }}
+Environment=APP_HOST={{ app_host }}
+Environment=APP_DATABASE_URL={{ app_database_url }}
+Environment=APP_ENV={{ app_env }}
+
+ExecStart=/bin/bash -c "while true; do cat {{ app_directory }}/{{ app_file_name }}; sleep 30; done"
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

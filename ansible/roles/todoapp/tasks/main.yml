@@ -1,0 +1,55 @@
+    app_user: todoapp 
+    app_group: todoapp_g
+    app_directory: /opt/todo_api
+    app_file_name: app.txt
+    app_port: 8080
+    app.host: 0.0.0.0
+    app_database_url: sqlite://opt/todo-api/todo.db
+    app_env: production
+    service_name:todo_api.service.j2
+    
+---
+- name: Create group
+   ansible.builtin.group:
+     name: todoapp
+     state: present
+
+- name: Create system user
+   ansible.builtin.user:
+     name: todoapp
+     group: todoapp_g
+     system: yes
+     create_home: no
+     shell: /usr/sbin/nologin
+
+- name: Create application directory
+   ansible.builtin.file:
+    path: /opt/todo_api
+    state: directory
+    owner: todoapp
+    group: todoapp_g
+    mode: '0755'
+
+- name: Copy application file
+   ansible.builtin.copy:
+    dest: /opt/todo_api
+    content: |
+      TODO API SERVICE
+      Environment: production
+      Database: sqlite://opt/todo-api/todo.db
+    owner: todoapp
+    group: todoapp_g
+    mode: '0644'
+
+- name: Create systemd service file
+   ansible.builtin.template:
+    src: todo_api.service.j2
+    dest: /etc/systemd/system/todo_api.service.j2
+    notify:
+    - Reload systemd
+
+- name: Enable and start service
+   ansible.builtin.systemd:
+    name: todo_api.service.j2
+    enabled: true
+    state: started

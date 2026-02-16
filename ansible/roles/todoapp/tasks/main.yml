@@ -1,17 +1,17 @@
-    app_user: todoapp 
-    app_group: todoapp_g
-    app_directory: /opt/todo_api
-    app_file_name: app.txt
-    app_port: 8080
-    app.host: 0.0.0.0
-    app_database_url: sqlite://opt/todo-api/todo.db
-    app_env: production
-    service_name:todo_api.service.j2
+app_user: todoapp 
+app_group: todoapp_g
+app_directory: /opt/todo_api
+app_file_name: app.txt
+app_port: 8080
+app.host: 0.0.0.0
+app_database_url: sqlite://opt/todo-api/todo.db
+app_env: production
+service_name: todo_api.service.j2
     
 ---
 - name: Create group
    ansible.builtin.group:
-     name: todoapp
+     name: todoapp_g
      state: present
 
 - name: Create system user
